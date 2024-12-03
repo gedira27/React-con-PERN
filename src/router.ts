@@ -1,6 +1,7 @@
 import {Router } from 'express'
 import { body } from 'express-validator'
 import { createProduct } from './handlers/product'
+import { handleInputErrors } from './middleware'
 
 const router = Router()
 
@@ -18,7 +19,8 @@ router.post('/',
     body('price')
             .isNumeric().withMessage('Valor no válido')
             .notEmpty().withMessage('El precio del Producto no puede ir vacío')
-            .custom(value => value >0).withMessage('Precio no válido'),
+            .custom(value => value > 0).withMessage('Precio no válido'),
+    handleInputErrors,
     createProduct
 )
 
